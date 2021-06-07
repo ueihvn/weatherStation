@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -37,8 +36,6 @@ func getURLString() string {
 
 	urlThingSpeak.RawQuery = urlValues.Encode()
 
-	fmt.Println(urlThingSpeak.String())
-
 	return urlThingSpeak.String()
 }
 
@@ -51,20 +48,20 @@ func decodeTsJSON(data []byte) (tsLastEntry TSLastEntry, err error) {
 	return
 }
 
-func getRequest(url string) {
+func getRequest(url string) (ts TSLastEntry, err error) {
 	res, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		return
 	}
 
 	data, _ := ioutil.ReadAll(res.Body)
 	if err != nil {
-		log.Fatal(err)
+		return
 	}
 
-	ts, err := decodeTsJSON(data)
+	ts, err = decodeTsJSON(data)
 	if err != nil {
-		log.Fatal(err)
+		return
 	}
-	fmt.Println(ts)
+	return
 }
