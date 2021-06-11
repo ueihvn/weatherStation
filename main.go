@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	lastEntryIdDb  int = 0
+	lastEntryIdDb  int = 1
 	influxDbClient influxdb2.Client
 	wg             sync.WaitGroup
 )
@@ -22,15 +22,15 @@ const (
 
 func init() {
 	influxDbClient = influxdb2.NewClient(influxUrl, influxToken)
+	loadEnv()
 }
 
 func main() {
 
 	wg.Add(1)
 
-	// go routine for writing from points channel
+	// go routine for writing points from channel to influxdb
 	go writeDataInfluxDb()
-
 	// go routine for getting data thingspeak
 	go func() {
 		for {
@@ -39,7 +39,7 @@ func main() {
 				log.Fatal(err)
 			}
 			lastEntryIdTs := tsLastData.EntryId
-			if lastEntryIdTs != lastEntryIdDb || lastEntryIdTs == 0 {
+			if lastEntryIdTs != lastEntryIdDb || lastEntryIdTs == 1 {
 				// update in db
 				fmt.Println("update db, new entryId: ", lastEntryIdTs)
 
@@ -48,6 +48,9 @@ func main() {
 					sendHumidityPointToChannel(tsLastData)
 					sendAirQualityPointToChannel(tsLastData.AirQuality)
 				}()
+
+				//check and send mail
+				go sendMailProcess(tsLastData)
 
 				lastEntryIdDb = lastEntryIdTs
 			} else {

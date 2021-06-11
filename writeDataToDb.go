@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"time"
 
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
@@ -46,7 +45,6 @@ func sendHumidityPointToChannel(tsLastEntry TSLastEntry) {
 		AddField("pressure", tsLastEntry.Pressure).
 		AddField("altitude", tsLastEntry.Altitude).
 		SortFields().SetTime(time.Now())
-	fmt.Println(hs)
 	pointsCh <- hs
 }
 
@@ -57,6 +55,5 @@ func sendAirQualityPointToChannel(avgPpm float32) {
 		AddTag("location", "Ho Chi Minh").
 		AddField("avgPpm", avgPpm).
 		SetTime(time.Now())
-	fmt.Println(aqs)
 	pointsCh <- aqs
 }
