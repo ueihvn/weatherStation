@@ -18,7 +18,7 @@ type Sender struct {
 var condition = make(map[string]float32, 2)
 
 const (
-	MAX_HEAT     = 37.0
+	MAX_HEAT     = 36.0
 	MAX_HUMIDITY = 90.0
 )
 

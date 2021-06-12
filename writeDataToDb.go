@@ -7,13 +7,6 @@ import (
 	"github.com/influxdata/influxdb-client-go/v2/api/write"
 )
 
-const (
-	influxToken string = "l8oHiNT7pvFBkw8g6qw4zWla5G8Ox7exI7oqSGpZJqqRk102Ad5lO1sJWvFaDFTulriKtC-E_tyMx9QMAJxnqQ=="
-	influxUrl   string = "http://localhost:8086"
-	influxOrg   string = "nhom3"
-	influxBuc   string = "nhom3-bucker"
-)
-
 var pointsCh = make(chan *write.Point, 200)
 
 func writeDataInfluxDb() {
