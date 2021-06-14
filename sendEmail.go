@@ -18,6 +18,7 @@ type Sender struct {
 const (
 	MAX_HEAT     = 36.0
 	MAX_HUMIDITY = 90.0
+	MAX_CO2      = 150.0
 )
 
 func (sender Sender) SendMail(to []string, subject, bodyMessage string) {
@@ -54,6 +55,7 @@ func sendMailProcess(ts TSLastEntry) {
 
 	condition["Tempature"] = MAX_HEAT
 	condition["Humidity"] = MAX_HUMIDITY
+	condition["AirQuality"] = MAX_CO2
 
 	msg := checkConditionalForSendMail(ts, condition)
 	fmt.Println(msg)
