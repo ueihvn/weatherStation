@@ -3,4 +3,4 @@ build:
 start:
 	docker-compose -f production.yml --env-file ./dev.env up -d
 clean:
-	docker-compost -f production.yml down
+	docker-compose -f production.yml down
