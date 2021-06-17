@@ -18,7 +18,7 @@ for cleaning container down project
 WORKDIR: set working directory for any RUN,CMD,..
 using go install for build and put binary into $GOBIN
 
-##writeDataInfluxDb
+## writeDataInfluxDb
 Using point to store data base on line protocol
 ### line protocol
 
