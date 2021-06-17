@@ -31,16 +31,15 @@ func init() {
 	influxOrg = getEnvByKey("DOCKER_INFLUXDB_INIT_ORG")
 	influxBuc = getEnvByKey("DOCKER_INFLUXDB_INIT_BUCKET")
 
+	// delay for db setting
+	time.Sleep(time.Second * DelayTime)
+
 	influxDbClient = influxdb2.NewClient(influxUrl, influxToken)
 }
 
 func main() {
-	// delay for db setting
-	time.Sleep(time.Second * DelayTime)
 	wg.Add(1)
 
-	// go routine for writing points from channel to influxdb
-	go writeDataInfluxDb()
 	// go routine for getting data thingspeak
 	go func() {
 		for {
@@ -69,6 +68,9 @@ func main() {
 			time.Sleep(time.Second * DelayTime)
 		}
 	}()
+
+	// go routine for writing points from channel to influxdb
+	go writeDataInfluxDb()
 
 	wg.Wait()
 	influxDbClient.Close()

@@ -51,7 +51,7 @@ func checkConditionalForSendMail(tsLastEntry TSLastEntry, condition map[string]f
 }
 
 func sendMailProcess(ts TSLastEntry) {
-	condition := make(map[string]float32, 2)
+	condition := make(map[string]float32, 3)
 
 	condition["Tempature"] = MAX_HEAT
 	condition["Humidity"] = MAX_HUMIDITY

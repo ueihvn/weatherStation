@@ -6,6 +6,6 @@ ENV GOPATH /go
 
 COPY . /go/src/weatherStation
 
-RUN cd $GOPATH/src/weatherStation/ && go install -v .
+RUN go install -v .
 
 CMD [ "weatherStation" ]
