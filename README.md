@@ -1,7 +1,7 @@
 # Weather Station for IOT subject:
 NT532.L21 Internet Of Things
 
-## overeview
+## overview
 Get data from private channel on ThingSpeak using RESTAPI
 Store data into InfluxDB
 Send Gmail with custom threshold
@@ -28,10 +28,10 @@ airQualitySensor,source= "MQ135",location="Ho Chi Minh" avgPpm=6.2 timestamp
 
 ## production.yml
 running 3 contaier
-###influxdb
+### influxdb
 influxdb: for running influxdb contaier
-###influxdb_cli
+### influxdb_cli
 influxdb_cli: for running initial setup for influxdb
 links: for share enviroment variables between influxdb and influxdb_cli
-###server
+### server
 Go application for get data ThingSpeak from private channel, write data ThingSpeak and Email when match condition
