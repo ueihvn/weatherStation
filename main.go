@@ -13,6 +13,10 @@ var (
 	lastEntryIdDb  int = 1
 	influxDbClient influxdb2.Client
 	wg             sync.WaitGroup
+	influxToken    string
+	influxUrl      string = "http://influxdb:8086"
+	influxOrg      string
+	influxBuc      string
 )
 
 const (
@@ -21,16 +25,21 @@ const (
 )
 
 func init() {
-	influxDbClient = influxdb2.NewClient(influxUrl, influxToken)
 	loadEnv()
+
+	influxToken = getEnvByKey("DOCKER_INFLUXDB_TOKEN")
+	influxOrg = getEnvByKey("DOCKER_INFLUXDB_INIT_ORG")
+	influxBuc = getEnvByKey("DOCKER_INFLUXDB_INIT_BUCKET")
+
+	// delay for db setting
+	time.Sleep(time.Second * DelayTime)
+
+	influxDbClient = influxdb2.NewClient(influxUrl, influxToken)
 }
 
 func main() {
-
 	wg.Add(1)
 
-	// go routine for writing points from channel to influxdb
-	go writeDataInfluxDb()
 	// go routine for getting data thingspeak
 	go func() {
 		for {
@@ -59,6 +68,9 @@ func main() {
 			time.Sleep(time.Second * DelayTime)
 		}
 	}()
+
+	// go routine for writing points from channel to influxdb
+	go writeDataInfluxDb()
 
 	wg.Wait()
 	influxDbClient.Close()

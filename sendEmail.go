@@ -15,11 +15,10 @@ type Sender struct {
 	Port       string
 }
 
-var condition = make(map[string]float32, 2)
-
 const (
-	MAX_HEAT     = 37.0
+	MAX_HEAT     = 36.0
 	MAX_HUMIDITY = 90.0
+	MAX_CO2      = 150.0
 )
 
 func (sender Sender) SendMail(to []string, subject, bodyMessage string) {
@@ -52,9 +51,11 @@ func checkConditionalForSendMail(tsLastEntry TSLastEntry, condition map[string]f
 }
 
 func sendMailProcess(ts TSLastEntry) {
+	condition := make(map[string]float32, 3)
 
 	condition["Tempature"] = MAX_HEAT
 	condition["Humidity"] = MAX_HUMIDITY
+	condition["AirQuality"] = MAX_CO2
 
 	msg := checkConditionalForSendMail(ts, condition)
 	fmt.Println(msg)
